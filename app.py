@@ -607,8 +607,8 @@ def ordersToday():
         orderDataNew.append(i)
     return render_template('./adminPages/ordersViewToday.html', data=orderDataNew)
 
-@app.route('/conductorLogin', methods = ['GET', 'POST'])
-def conductorLogin():
+@app.route('/conductor', methods = ['GET', 'POST'])
+def conductor():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get("password")
@@ -636,6 +636,47 @@ def conductorHome():
 @app.route('/changeConductorPassword')
 def changeConductorPassword():
     return render_template('./adminPages/conductorPasswordChange.html')
+
+@app.route('/collection')
+def collection():
+    busCollection = db['Buses']
+    busData = busCollection.find()
+    busDataList = []
+    for i in busData:
+        i['_id'] = str(i['_id'])
+        busDataList.append(i)
+    print(busDataList)
+    return render_template('./adminPages/collection.html', data=busDataList)
+
+@app.route('/collectionData', methods = ['POST', 'GET'])
+def collectionData():
+    collection = db['Orders']
+    dateSelect=request.form.get('dateSelect')
+    busSelected = request.form.get('bus')
+    print(busSelected, dateSelect)
+    dtObtained = collection.find({'date' : dateSelect, 'busId' : str(busSelected)})
+
+    dt = {}
+    for i in dtObtained:
+        tm = i['time']
+        if tm in dt:
+            dt[tm]['total'] += int(i['amt'])
+            dt[tm]['tickets'] += 1
+        else:
+            dt[tm] = {}
+            dt[tm]['total'] = int(i['amt'])
+            dt[tm]['tickets'] = 1
+            dt[tm]['time'] = tm
+            dt[tm]['place'] = i['src'] + ' to ' + i['dest']
+
+    datasToPass = []
+    total = 0
+    for i in dt:
+        datasToPass.append(dt[i])
+        total+=dt[i]['total']
+        
+    print(total)
+    return render_template('./adminPages/collectionData.html', data=datasToPass, total = total)
 
 # ===============================================================================
 
