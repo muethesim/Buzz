@@ -73,10 +73,14 @@ def forgotPassword():
 
 @app.route('/home')
 def home():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     return render_template('home.html')
 
 @app.route('/profile')
 def profile():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     id = ObjectId(session['data'])
     collection = db['Users']
     data = collection.find_one({ '_id' : id })
@@ -84,6 +88,8 @@ def profile():
 
 @app.route('/changePassword')
 def changePassword():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     id = ObjectId(session['data'])
     collection = db['Users']
     data = collection.find_one({ '_id' : id })
@@ -91,6 +97,8 @@ def changePassword():
 
 @app.route('/buses')
 def buses():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Buses']
     collection2 = db['Routes']
     dt = collection.find()
@@ -102,11 +110,15 @@ def buses():
 
 @app.route('/routeMap')
 def routeMap():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     return render_template('routeMap.html')
 
 
 @app.route('/bookTicket', methods = ['GET', 'POST'])
 def bookTicket():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     places = set()
     collection = db['Routes']
     tripCollection = db['Trips']
@@ -164,6 +176,8 @@ def bookTicket():
 
 @app.route('/transactions')
 def transactions():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Orders']
     realData = []
     data = collection.find({ 'userId' : ObjectId(session["data"]) }).sort('date',1)
@@ -181,6 +195,8 @@ def transactions():
 
 @app.route('/travelled')
 def travelled():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     from datetime import date, datetime
     collection = db['Orders']
     realData = []
@@ -197,16 +213,22 @@ def travelled():
 
 @app.route('/cancel')
 def cancel():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['CancelledTicket']
     data = collection.find({ 'userId' : ObjectId(session["data"]) }).sort('date',1)
     return render_template('cancel.html', data = data)
 
 @app.route('/scanner')
 def scanner():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     return render_template('scanner.html')
 
 @app.route('/payment', methods = ['GET', 'POST'])
 def payment():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     src = request.form.get('source')
     dest = request.form.get('destination')
     time = request.form.get('time')
@@ -223,12 +245,16 @@ def payment():
 
 @app.route('/ticket', methods = ['GET', 'POST'])
 def ticket():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     rc_data = json.loads(request.form.get('data'))
     dt = [{"src" : rc_data['from'], "dest" : rc_data['to'], "price" : rc_data['ticketPrice'], 'times' : rc_data['times']}]
     return render_template('ticket.html', data = dt)
 
 @app.route('/profileEdited', methods = ['GET', 'POST'])
 def profileEdited():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     id = ObjectId(session['data'])
     collection = db['Users']
     dt = request.form.to_dict()
@@ -238,6 +264,8 @@ def profileEdited():
 
 @app.route('/changePasswordAction', methods = ['GET', 'POST'])
 def changePasswordAction():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     password = request.form.get("pass1")
     data = { 'password' : password }
     id = ObjectId(session['data'])
@@ -247,6 +275,8 @@ def changePasswordAction():
 
 @app.route('/bookingDone', methods = ['POST'])
 def bookingDone():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     data = json.loads(request.form.get('data'))
     collection = db['Buses']
     busDetails = collection.find_one({ '_id' : ObjectId(data['busId']) })
@@ -261,6 +291,8 @@ def bookingDone():
 
 @app.route('/<id>/cancelTicket', methods = ['GET','POST'])
 def delete(id):
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Orders']
     collection2 = db['CancelledTicket']
     changeData = collection.find_one({ '_id' : ObjectId(id) })
@@ -270,11 +302,15 @@ def delete(id):
 
 @app.route('/logout')
 def logout():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     session["data"] = None
     return redirect('/')
 
 @app.route('/<id>/<dbname>/printTicket', methods = ['POST', 'GET'])
 def printTicket(id, dbname):
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db[dbname]
     data = collection.find_one({ '_id' : ObjectId(id.strip()) })
     return render_template('ticketPrint.html', data = data)
@@ -314,18 +350,26 @@ def adminLogin():
 
 @app.route('/adminHome')
 def adminHome():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     return render_template('./adminPages/adminHome.html')
 
 @app.route('/adminUser')
 def adminUser():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     return render_template('./adminPages/adminUser.html')
 
 @app.route('/changeAdminPassword')
 def changeAdminPassword():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     return render_template('./adminPages/changeAdminPassword.html')
 
 @app.route('/changingRoute', methods = ['GET', 'POST'])
 def changingRoute():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Routes']
     data = list(collection.find())
     for i in data:
@@ -348,6 +392,8 @@ def changingRoute():
 
 @app.route('/changeAdminPasswordAction', methods = ['POST'])
 def changeAdminPasswordAction():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     newPass = request.form.get("pass1")
     collection = db['Admin']
     collection.update_one({ '_id' : ObjectId(session['data']) }, { '$set' : { 'password' : newPass } })
@@ -355,6 +401,8 @@ def changeAdminPasswordAction():
 
 @app.route('/changeConductorPasswordAction', methods = ['POST'])
 def changeConductorPasswordAction():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     newPass = request.form.get("pass1")
     collection = db['Conductors']
     collection.update_one({ '_id' : ObjectId(session['data']) }, { '$set' : { 'password' : newPass } })
@@ -362,6 +410,8 @@ def changeConductorPasswordAction():
 
 @app.route('/<id>/deleteRoute', methods = ['POST', 'GET'])
 def deleteRoute(id):
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Routes']
     collectionBus = db['Buses']
     collectionTrip = db['Trips']
@@ -383,6 +433,8 @@ def deleteRoute(id):
 
 @app.route('/addingRoute', methods = ['GET', 'POST'])
 def addingRoute():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     if request.method == 'POST':
         collection = db['Routes']
         fromData = request.form.get('rtFrom')
@@ -400,6 +452,8 @@ def addingRoute():
 
 @app.route('/changingBus', methods = ['GET', 'POST'])
 def changingBus():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Buses']
     collection2 = db['Routes']
     routesObtain = collection2.find()
@@ -424,6 +478,8 @@ def changingBus():
 
 @app.route('/addBuses', methods= ['GET', 'POST'])
 def addBuses():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection2 = db['Routes']
     routesObtain = collection2.find()
     routesData = []
@@ -446,6 +502,8 @@ def find(lst, finder):
 
 @app.route('/editTrips', methods = ['GET', 'POST'])
 def editTrips():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Trips']
     collection2 = db['Buses']
     collection3 = db['Routes']
@@ -476,6 +534,8 @@ def editTrips():
 
 @app.route('/addTrips', methods = ['GET', 'POST'])
 def addTrips():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Trips']
     collection2 = db['Buses']
     collection3 = db['Routes']
@@ -502,6 +562,8 @@ def addTrips():
 
 @app.route('/<id>/deleteBuses', methods = ['POST', 'GET'])
 def deleteBuses(id):
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collectionBus = db['Buses']
     collectionTrip = db['Trips']
     newIdStr = id.strip()
@@ -522,6 +584,8 @@ def deleteBuses(id):
 
 @app.route('/<id>/deleteTrips', methods = ['POST', 'GET'])
 def deleteTrips(id):
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collectionTrip = db['Trips']
     newId = ObjectId(id.strip())
     collectionTrip.delete_one({ '_id' : newId })
@@ -529,6 +593,8 @@ def deleteTrips(id):
 
 @app.route('/addConductors', methods= ['GET', 'POST'])
 def addCondudtors():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection2 = db['Buses']
     busObtain = collection2.find()
     busData = []
@@ -547,6 +613,8 @@ def addCondudtors():
 
 @app.route('/editConductor', methods = ['GET', 'POST'])
 def editConductor():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Conductors']
     collectionBus = db['Buses']
     busObtain = collectionBus.find()
@@ -576,6 +644,8 @@ def editConductor():
 
 @app.route('/<id>/deleteConductor', methods = ['POST', 'GET'])
 def deleteConductor(id):
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Conductors']
     newId = ObjectId(id.strip())
     collection.delete_one({ '_id' : newId })
@@ -583,6 +653,8 @@ def deleteConductor(id):
 
 @app.route('/orders', methods = ['GET', 'POST'])
 def orders():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Orders']
     collectionUser = db['Users']
     orderData = collection.find()
@@ -596,6 +668,8 @@ def orders():
 
 @app.route('/ordersToday', methods = ['GET', 'POST'])
 def ordersToday():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Orders']
     collectionUser = db['Users']
     orderData = collection.find({'date' : str(date.today())})
@@ -631,14 +705,20 @@ def conductor():
 
 @app.route('/conductorHome', methods = ['GET', 'POST'])
 def conductorHome():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     return render_template('./adminPages/conductorHome.html')
 
 @app.route('/changeConductorPassword')
 def changeConductorPassword():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     return render_template('./adminPages/conductorPasswordChange.html')
 
 @app.route('/collection')
 def collection():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     busCollection = db['Buses']
     busData = busCollection.find()
     busDataList = []
@@ -650,6 +730,8 @@ def collection():
 
 @app.route('/collectionData', methods = ['POST', 'GET'])
 def collectionData():
+    if session['data'] == None:
+        return "<h2>Login Required</h2>"
     collection = db['Orders']
     dateSelect=request.form.get('dateSelect')
     busSelected = request.form.get('bus')
