@@ -488,6 +488,33 @@ def addTrips():
         return render_template('./adminPages/addTrips.html', busData = busDataFull, routeData =routeDataFull, message = "Data Entered SuccessFully")
     return render_template('./adminPages/addTrips.html', busData = busDataFull, routeData =routeDataFull)
 
+@app.route('/<id>/deleteBuses', methods = ['POST', 'GET'])
+def deleteBuses(id):
+    collectionBus = db['Buses']
+    collectionTrip = db['Trips']
+    newIdStr = id.strip()
+    newId = ObjectId(newIdStr)
+    tripData = collectionTrip.find_one({ 'busId' : newIdStr })
+    if tripData:
+        return f'''
+                            <form id="redirectForm" action="/changingBus">
+                            </form>
+                            <script>
+                                alert("The Route Data is feeded in Trips. Cannot Be Deleted.")
+                                document.getElementById('redirectForm').submit();
+                            </script>
+                            '''       
+    else:
+        collectionBus.delete_one({ '_id' : newId })
+    return redirect('/changingBus')
+
+@app.route('/<id>/deleteTrips', methods = ['POST', 'GET'])
+def deleteTrips(id):
+    collectionTrip = db['Trips']
+    newId = ObjectId(id.strip())
+    collectionTrip.delete_one({ '_id' : newId })
+    return redirect('/editTrips')
+
 # ===============================================================================
 
 if __name__ == '__main__':
