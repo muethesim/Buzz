@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <title>Bus Details</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        background-image: url("https://images.unsplash.com/photo-1501393091915-82f0cbd8f338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80");
+        background-size: cover;
+        background-position: center;
+      }
+      header {
+        background-color: rgba(70, 78, 78, 0.5);
+        color: #fff;
+        padding: 50px;
+      }
+      h1 {
+        margin: 0;
+      }
+
+      nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      nav ul li {
+        display: inline-block;
+        margin-top: 10px;
+        margin-right: 10px;
+      }
+
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+      }
+
+      nav ul li a.active {
+        color: #ffcc00;
+      }
+
+      header {
+        background-color: rgba(70, 78, 78, 0.5);
+        color: #fff;
+        padding: 70px;
+      }
+
+      .container2 {
+        max-width: 25%;
+        margin: auto auto;
+        padding: 20px;
+        background: #f2f2f2;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"], input[type="password"] {
+        width: 100%;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-size: 16px;
+      }
+
+      select {
+        width: 100%;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-size: 16px;
+      }
+
+      button[type="submit"] {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 4px;
+        background-color: brown;
+      }
+
+      .warning-message {
+        text-align: center;
+        font-weight: bold;
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>CONDUCTOR INFORMATIONS</h1>
+      <nav>
+        <ul>
+          <li><a href="/adminUser">Home</a></li>
+          <li><a href="/editConductor">Conductors</a></li>
+          <li><a href="#" class="active">Add Conductors</a></li>
+        </ul>
+      </nav>
+    </header>
+    <br /><br />
+    <div class="container2">
+      <h1>Conductor</h1>
+      <br />
+      <form action="#" method="post">
+        <div class="form-group">
+          <label for="conductorUsername">UserName</label>
+          <input type="text" id="conductorUsername" name="conductorUsername" required />
+        </div>
+        <div class="form-group">
+          <label for="conductorName">Name</label>
+          <input type="text" id="conductorName" name="conductorName" required />
+        </div>
+        <div class="form-group">
+          <label for="conductorPassword">Password</label>
+          <input type="password" id="conductorPassword" name="conductorPassword" required />
+        </div>
+        <div class="form-group">
+          <label for="bus">Select Bus</label>
+          <select id="bus" name="bus">
+            <option value="None">None</option>
+            {% for i in busData %}
+            <option value="{{ i._id }}">{{ i.busName }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <button type="submit" id="submitBtn">Submit</button>
+      </form>
+      {% if message %}
+      <p class="warning-message">{{ message }}</p>
+      {% endif %}
+    </div>
+  </body>
+</html>

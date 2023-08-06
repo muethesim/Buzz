@@ -515,6 +515,60 @@ def deleteTrips(id):
     collectionTrip.delete_one({ '_id' : newId })
     return redirect('/editTrips')
 
+@app.route('/addConductors', methods= ['GET', 'POST'])
+def addCondudtors():
+    collection2 = db['Buses']
+    busObtain = collection2.find()
+    busData = []
+    for i in busObtain:
+        busData.append({ '_id' : str(i['_id']), 'busName' : i['busName']})
+    if request.method == 'POST':
+        collection = db['Conductors']
+        newName = request.form.get('conductorName')
+        newUserName = request.form.get('conductorUsername')
+        newPassword = request.form.get('conductorPassword')
+        newBus = request.form.get('bus')
+        newData = {'name' : newName, 'username' : newUserName, 'password' : newPassword, 'busId':newBus}
+        collection.insert_one(newData)
+        return render_template('./adminPages/conductorAdd.html', routesData = busData, message = "Data Added Successfully")
+    return render_template('./adminPages/conductorAdd.html', busData = busData)
+
+@app.route('/editConductor', methods = ['GET', 'POST'])
+def editConductor():
+    collection = db['Conductors']
+    collectionBus = db['Buses']
+    busObtain = collectionBus.find()
+    busData = []
+    for i in busObtain:
+        busData.append({ '_id' : str(i['_id']),  'busName' : i['busName']})
+
+    dataObtained = collection.find()
+    data = list(dataObtained)
+    for i in data:
+        if i['busId'] == 'None':
+            i['busName'] = 'None'
+        else:
+            i['busName'] = collectionBus.find_one({'_id' : ObjectId(i['busId'])})['busName']
+        i['_id'] = str(i['_id'])
+        i.pop('password')
+
+    if request.method == 'POST':
+        newId = request.form.get('conductorId2')
+        newName = request.form.get('Name')
+        newusername = request.form.get('username')
+        newBus = request.form.get('Bus')
+        newData = { 'name' : newName, 'username' : newusername, 'busId':newBus }
+        collection.update_one({ '_id' : ObjectId(newId) }, { '$set' : newData })
+        return redirect('/editConductor')
+    return render_template('./adminPages/conductorEdit.html', data = data, busData = busData)
+
+@app.route('/<id>/deleteConductor', methods = ['POST', 'GET'])
+def deleteConductor(id):
+    collection = db['Conductors']
+    newId = ObjectId(id.strip())
+    collection.delete_one({ '_id' : newId })
+    return redirect('/editConductor')
+
 # ===============================================================================
 
 if __name__ == '__main__':
