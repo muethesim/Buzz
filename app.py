@@ -353,6 +353,13 @@ def changeAdminPasswordAction():
     collection.update_one({ '_id' : ObjectId(session['data']) }, { '$set' : { 'password' : newPass } })
     return redirect('/adminHome')
 
+@app.route('/changeConductorPasswordAction', methods = ['POST'])
+def changeConductorPasswordAction():
+    newPass = request.form.get("pass1")
+    collection = db['Conductors']
+    collection.update_one({ '_id' : ObjectId(session['data']) }, { '$set' : { 'password' : newPass } })
+    return redirect('/conductorHome')
+
 @app.route('/<id>/deleteRoute', methods = ['POST', 'GET'])
 def deleteRoute(id):
     collection = db['Routes']
@@ -599,6 +606,36 @@ def ordersToday():
         i['user'] = userData['firstName'] + " " + userData['lastName']
         orderDataNew.append(i)
     return render_template('./adminPages/ordersViewToday.html', data=orderDataNew)
+
+@app.route('/conductorLogin', methods = ['GET', 'POST'])
+def conductorLogin():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get("password")
+        collection = db['Conductors']
+
+        user = collection.find_one( { 'username' : username } )
+        msg = ""
+        if(user):
+            if(user['password'] == password):
+                session['data'] = str(user['_id'])
+                return redirect('/conductorHome')
+
+            else :
+                msg = "Wrong Password! Please check your Password!"
+
+        else : 
+            msg = "No user found in this Username"
+        return render_template('./adminPages/conductorLogin.html', message = msg)
+    return render_template('./adminPages/conductorLogin.html')
+
+@app.route('/conductorHome', methods = ['GET', 'POST'])
+def conductorHome():
+    return render_template('./adminPages/conductorHome.html')
+
+@app.route('/changeConductorPassword')
+def changeConductorPassword():
+    return render_template('./adminPages/conductorPasswordChange.html')
 
 # ===============================================================================
 

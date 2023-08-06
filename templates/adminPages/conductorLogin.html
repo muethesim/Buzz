@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login Prompter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url("https://images.unsplash.com/photo-1501393091915-82f0cbd8f338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80");
+      background-size: cover;
+      background-position: center;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .login-container {
+      width: fit-content;
+      margin: 300px auto;
+      background-color: rgba(70, 78, 78, 0.5);
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-container h2 {
+      text-align: center;
+      color: #0c0a0a;
+    }
+
+    .login-container input[type="text"],
+    .login-container input[type="email"],
+    .login-container input[type="password"] {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .login-container button
+     {
+      width: 94%;
+      padding: 10px;
+      background-color: #dd0e0e;
+      position: center;
+      border: none;
+      color: #fff;
+      border-radius: 3px;
+      cursor: pointer;
+     }
+    .warning-message {
+  text-align: center;
+  font-weight: bold;
+  color:red;
+}
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <form action="/conductorLogin" method="post">
+    <h2>Conductor Login</h2>
+      <input type="text" placeholder="Username" name = "username" required>
+      <input type="password" placeholder="Password" name = "password" required>
+      <button type="submit">Login</button>
+      <div><p class="forgot"><a href="/forgotPassword">Forgot password?</a></p>
+      {% if message %}
+        <p class="warning-message"> {{ message }} </p>
+      {% endif %}
+    </form>
+  </div>
+</body>
+</html>
