@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        background-image: url("https://images.unsplash.com/photo-1501393091915-82f0cbd8f338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80");
+      background-size: cover;
+      background-position: center;
+      }
+      
+      header {
+        background-color: rgba(70, 78, 78, 0.5);
+        color: #fff;
+        padding: 70px;
+        
+      }
+      
+      h1 {
+        margin: 0;
+      }
+      
+      nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      
+      nav ul li {
+        display: inline-block;
+        margin-top: 10px;
+        margin-right:10px;
+      }
+      
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+      }
+
+      nav ul li a.active {
+        color: #ffcc00;
+      }
+      
+      main {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: rgba(66, 71, 71, 0.5);
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+      
+      h2 {
+        margin-top: 0;
+      }
+      
+      section {
+        margin-bottom: 20px;
+      }
+      
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      
+      th, td {
+        padding: 10px;
+        text-align: left;
+      }
+      
+      th {
+        background-color: #333;
+        color: #fff;
+      }
+      
+      tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+      .booking-options {
+  display: flex;
+}
+
+.option {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+}
+.option i {
+  font-size: 40px;
+  color: #ecf0ee;
+}
+.option a {
+  position: relative;
+}
+
+.option span {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  opacity: 0;
+  visibility:visible;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.option a:hover span {
+  opacity: 1;
+  visibility: visible;
+}
+
+.imagemodel {
+  right: 10px;
+}
+
+      
+</style>
+</head>
+<body>
+  <header>
+    <h1>BUZZZ</h1>
+    <nav>
+      <ul>
+        <li><a href="#" class="active">Buses</a></li>
+        <li><a href="/adminUser">Users</a></li>
+        <li><a href="/changeAdminPassword">Change Password</a></li>
+        <li><a href="logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <section class="content-section">
+      <div class="container">
+       
+        <div class="booking-options">
+          <div class="option">
+            <a href="/changingRoute">
+            <i class="fa fa-road"></i>
+            </a>
+            <h3>Routes</h3>
+           
+          </div>
+          <div class="option">
+            <a href="/changingBus">
+            <i class="fas fa-bus"></i>
+            </a>
+            <h3>Bus</h3>
+          </div>
+          <div class="option">
+              <a href="/editTrips">
+              <i class="fas fa-map-marked-alt" area-hidden="true"></i>
+              </a>
+              <h3>Trips</h3>
+          </div>
+          <div class="option">
+            <a href="#">
+            <i class="fa fa-money-bill"></i>
+            </a>
+            <h3>Collection</h3>
+            
+          </div>
+        </div>
+           
+          </div>
+        </div>
+      </div>
+    </section>
+    
+  </main>
+  
+  <footer>
+    <p>&copy; </p>
+  </footer>
+</body>
+</html>

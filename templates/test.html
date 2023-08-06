@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .ticket {
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 20px;
+            width: 300px;
+        }
+
+        .ticket-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .ticket-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .ticket-subtitle {
+            font-size: 14px;
+            color: #777;
+        }
+
+        .ticket-info {
+            margin-bottom: 20px;
+        }
+
+        .ticket-label {
+            font-weight: bold;
+            display: inline-block;
+            width: 80px;
+        }
+
+        .ticket-value {
+            display: inline-block;
+        }
+
+        .ticket-footer {
+            text-align: center;
+        }
+
+        .ticket-barcode {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .barcode-image {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="ticket">
+        <div class="ticket-header">
+            <div class="ticket-title">Event Ticket</div>
+            <div class="ticket-subtitle">Ticket Details</div>
+        </div>
+        <div class="ticket-info">
+            <div class="ticket-label">Event:</div>
+            <div class="ticket-value">Sample Event</div>
+        </div>
+        <div class="ticket-info">
+            <div class="ticket-label">Date:</div>
+            <div class="ticket-value">July 15, 2023</div>
+        </div>
+        <div class="ticket-info">
+            <div class="ticket-label">Location:</div>
+            <div class="ticket-value">Sample Venue</div>
+        </div>
+        <div class="ticket-footer">
+            <div class="ticket-barcode">
+                <img class="barcode-image" src="barcode.jpg" alt="Ticket Barcode">
+            </div>
+        </div>
+    </div>
+</body>
+</html>

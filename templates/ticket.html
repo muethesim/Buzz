@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+  <html lang="en">
+  <head>
+
+    <script>
+      function calculateTotal() {
+        quan = Number(document.getElementById("quantity").value);
+        time = document.getElementById("time").value;
+        date = document.getElementById("date").value;
+        if(time == "choose" || date == "") {
+          alert("Please Fill All the columns.");
+        }
+        else {
+          btn = document.getElementById("submitButton")
+          document.getElementById("change").innerHTML = "₹" + quan*Number("{{ data[0].price }}") + ".00";
+          document.getElementById('priceData').value = String(quan*Number("{{ data[0].price }}"))
+          btn.disabled = false
+          btn.classList.add("submitEnabled")
+          btn.classList.remove("submitDisabled")
+        }
+      }
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bus Ticketing System</title>
+    <style>
+        body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-image: url("https://images.unsplash.com/photo-1501393091915-82f0cbd8f338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80");
+  }
+  .container{
+    background-color: white;
+    max-width: 1000px;
+    border-radius: 7px;
+    padding: 16px 25px;
+  }
+  h1, h2, h3 {
+    color: #0e0808;
+    font-family: 'Poppins'; font-weight: normal; font-size: 35px;
+    border-bottom: #853f3f;
+  }
+  
+  #ticket-selection, #passenger-info, #qr-code-display {
+    margin-bottom: 30px;
+  }
+  
+  form {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  input, select {
+    margin-top: 5px;
+    padding: 5px;
+  }
+  
+  button {
+    margin-top: 10px;
+    padding: 5px 10px;
+    color: rgb(212, 212, 236);
+    background: rgb(45, 27, 92);
+  }
+
+  .submitDisabled {
+    margin-top: 10px;
+    padding: 5px 10px;
+    color: rgb(212, 212, 236);
+    background: gray;
+    height: 50px;
+    width: 100%;
+  }
+
+  .submitEnabled {
+    margin-top: 10px;
+    padding: 5px 10px;
+    color: rgb(212, 212, 236);
+    background: rgb(45, 27, 92);
+    height: 50px;
+    width: 100%;
+  }
+  
+  #total-display {
+    margin-top: 20px;
+  }
+  
+  #qrcode {
+    width: 200px;
+    height: 200px;
+    margin-top: 10px;
+    border: 1px solid #333;
+  }
+  .left{
+    width: 70%;
+    height: 100%;
+
+  }
+  .right{
+    width: 30%;
+    height:100%
+  }
+    </style>
+  </head>
+ 
+<body>
+  <div class="container">
+    <div class="Left">
+  <h1>Get your Tickets here</h1>
+  
+  <div id="ticket-selection">
+    <form action="/payment" method="post" id="frm">
+
+      <label for="source">Source:</label>
+      <input type="text"  id="source" value="{{ data[0].src }}" disabled>
+      <input type="hidden" name="source" value="{{ data[0].src }}">
+      <label for="destination">Destination:</label>
+      <input type="text"  id="destination" value="{{ data[0].dest }}" disabled>
+      <input type="hidden" name="destination" value="{{ data[0].dest }}">
+      <input type="hidden" name = "busId" id = "busId" value=" {{ data[0].times }} ">
+
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date">
+
+      <label for="time">Time :</label>
+      <select id="time" name="time">
+        {% for i in data[0].times %}
+        <option value="{{ i }}">{{ i }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="quantity">Quantity:</label>
+      <input type="number" id="quantity" min="1" max="10" value="1" name="quantity"><br>
+
+      <button type="button" onclick="calculateTotal()" id = "calculateButton">Calculate Total</button>
+
+      <div id="total-display">
+        <h3>Total:</h3>
+        <p id="change">₹0.00</p>
+        <input type="hidden" name="priceData" value='{{ data[0].price }}' id="priceData">
+        </div>
+
+        <input type="submit" value="Proceed To Payment" class="submitDisabled" disabled id = "submitButton">
+    </form>
+  </div>
+  </div>
+  </div> 
+</body>
+</html>

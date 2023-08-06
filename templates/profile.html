@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Profile</title>
+  <script>
+    function showDiv() {
+      var div = document.getElementById('myDiv');
+      div.style.display = 'block';
+    }
+
+    function hideDiv() {
+      var div = document.getElementById('myDiv');
+      div.style.display = 'none';
+    }
+  </script>
+  <style>
+    /* Global styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url("https://images.unsplash.com/photo-1501393091915-82f0cbd8f338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80");
+      background-size: cover;
+      background-position: center;
+}
+
+header {
+  background-color: rgba(70, 78, 78, 0.5);
+  color: #fff;
+  padding: 70px;
+}
+
+h1 {
+  margin: 0;
+}
+
+nav ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #fff;
+}
+
+nav ul li a.active {
+  color: #ffcc00;
+}
+
+section.profile-section {
+  padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.profile-info h2 {
+  color: #fff;
+}
+
+.profile-details {
+  color: #fff;
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.profile-details img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+
+
+.edit-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.edit-button:hover {
+  background-color: #555;
+}
+
+#myDiv {
+  display: none;
+}
+
+.form-container {
+        width: 300px;
+        margin: 0 auto;
+      }
+      .form-container input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+      }
+      .form-container input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>BUZZZ</h1>
+    <nav>
+      <ul>
+        <li><a href="/home">Home</a></li>
+        <!-- <li><a href="book ticket.html">Tickets</a></li> -->
+        <li><a href="/profile" class="active">Profile</a></li>
+        <li><a href="/changePassword">Change Password</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="profile-section"> 
+    <div class="container">
+      <div class="profile-info">
+        <h2>Profile</h2>
+        <div class="profile-details">
+          <img src="{{ url_for('static', filename='avatar.png') }}" alt="User photo">
+          <div class="details">
+            <p><strong>Name:</strong> {{ data['firstName'] +' ' + data['lastName'] }}</p>
+            <p><strong>Email:</strong> {{ data['email'] }} </p>
+            <p><strong>Phone:</strong> {{ data['phoneNumber'] }}</p>
+            <p><strong>User id:</strong> {{ data['_id'] }}</p>
+            <button class="edit-button" onclick="showDiv()">Edit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="myDiv">
+    <div class="form-container">
+    <form action = '/profileEdited' method="post">
+        <input type="text" name="firstName" placeholder="Name" value=" {{data['firstName']}} " required>
+        <input type="text" name="lastName" placeholder="Email" value=" {{data['lastName']}} " required>
+        <input type="text" name="email" placeholder="Email" value=" {{data['email']}} " required>
+        <input type="text" name="phoneNumber" placeholder="Phone" value=" {{data['phoneNumber']}} " required>
+        <input type="submit" value="Submit" onclick="hideDiv()">
+    </form>
+    </div>
+  </div>
+
+  <footer>
+    
+  </footer>
+</body>
+</html>
+

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Flight ticket challange</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styleTicket.css') }}">
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <style>
+   .buttonStyle {
+      background-color: #f44336;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            min-height: 35px;
+            width: 80%;
+            margin-bottom: 30px;
+            margin-top: 30px;
+   }
+
+   .buttonStyle:hover {
+            background-color: #d32f2f;
+        }
+  </style>
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!-- INSPO:  https://www.behance.net/gallery/69583099/Mobile-Flights-App-Concept -->
+<main class="ticket-system">
+   <div class="top">
+   <br><br>
+   <div class="printer"></div>
+   </div>
+   <div class="receipts-wrapper">
+      <div class="receipts"  id="divToPrint">
+         <div class="receipt">
+            <h1 style="color: #dc2f34;">BUZZZ</h1>
+            <div class="route">
+               <h2>{{ data['src'] }}</h2>
+               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <path fill="#000000" stroke="#000000" stroke-width="1.5" d="M9.88,21.12L16,15l-6.12-6.12L12,9l8,8L12,25z"/>
+                </svg>                                                                   
+               <h2>{{ data['dest'] }}</h2>
+            </div>
+            <div class="details">
+               <div class="item">
+                  <span>Date</span>
+                  <h3>{{ data['date'] }}</h3>
+               </div>
+               <div class="item">
+                  <span>Time</span>
+                  <h3>{{ data['time'] }}</h3>
+               </div>
+               <div class="item">
+                  <span>No. Of Passengers</span>
+                  <h3>{{ data['quantity'] }}</h3>
+               </div>
+               <div class="item">
+                  <span>Bus No.</span>
+                  <h3>{{  data['busNumber'] }}</h3>
+               </div>
+               <div class="item">
+                  <span>Bus Name</span>
+                  <h3>{{ data['busName'] }}</h3>
+               </div>
+               <div class="item">
+                  <span>Net Amount</span>
+                  <h3>₹{{ data['amt'] }}.00</h3>
+               </div>
+            </div>
+         </div>
+         <div class="receipt qr-code">
+            <img class="qr" src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data= {{ data['_id'] }}">
+            <div class="description">
+               <h2>BUZZZ</h2>
+               <p>Show QR on Request</p>
+            </div>
+         </div>
+      </div>
+   </div>
+   <button class="buttonStyle" onclick="downloadAsImage()">Download</button>
+</main>
+
+<script>
+  function downloadAsImage() {
+    const element = document.getElementById('divToPrint');
+
+    html2canvas(element, {
+      allowTaint : true, 
+      useCORS : true
+    }).then(function(canvas) {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'myDivImage.png';
+      link.click();
+    });
+  }
+</script>
+  
+</body>
+</html>

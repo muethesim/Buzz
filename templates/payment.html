@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <style>
+        body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        background-image: url("https://images.unsplash.com/photo-1501393091915-82f0cbd8f338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80");
+      background-size: cover;
+      background-position: center;
+      }
+    </style>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        
+    var options = {
+        "key": "rzp_test_Tum9Wc5xEZEhMb",
+        "amount": "{{ payment['amount'] }}",
+        "currency": "INR",
+        "name": "BUZZZ",
+        "description": "Book Your Tickets Now",
+        "image": "https://example.com/your_logo",
+        "order_id": "{{ payment['id'] }}",
+        "handler": function (response){
+            var data = {'src' : "{{otherDatas['src']}}", 'dest': "{{otherDatas['dest']}}", 'time' : "{{otherDatas['time']}}", 'date' : "{{otherDatas['date']}}", 'amt' : "{{otherDatas['amt']}}", 'quantity' : "{{otherDatas['people']}}" , 'busId' : "{{otherDatas['busId']}}", 'paymentId' :response.razorpay_payment_id, 'orderId':response.razorpay_order_id}
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/bookingDone";
+
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "data";
+            input.value = JSON.stringify(data);
+            form.appendChild(input);
+
+            document.body.appendChild(form);
+            form.submit();
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+    });
+    rzp1.open();
+
+    function submitForm() {
+
+            var data = {'src' : "{{otherDatas['src']}}", 'dest': "{{otherDatas['dest']}}", 'time' : "{{otherDatas['time']}}", 'date' : "{{otherDatas['date']}}", 'amt' : "{{otherDatas['amt']}}"}
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/bookingDone";
+
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "data";
+            input.value = JSON.stringify(data);
+            form.appendChild(input);
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+    </body>
+</html>

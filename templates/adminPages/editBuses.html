@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <title>Bus Details</title>
+    <style>
+
+.dataTables_wrapper .dataTables_filter {
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+.dataTables_wrapper .dataTables_filter input {
+
+            width: 300px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #ccc;
+        }
+
+        /* Customize the search button */
+        .dataTables_wrapper .dataTables_filter button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Customize the search button hover effect */
+        .dataTables_wrapper .dataTables_filter button:hover {
+            background-color: #45a049;
+        }
+
+        .dataTables_info {
+            display: none;
+        }
+
+        .dataTables_wrapper .dataTables_filter label {
+            color: white;
+        }
+
+         body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        background-image: url("https://images.unsplash.com/photo-1501393091915-82f0cbd8f338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80");
+        background-size: cover;
+        background-position: center;
+        }
+        header {
+          background-color: rgba(70, 78, 78, 0.5);
+         color: #fff;
+          padding: 50px;
+        }
+        h1 {
+          margin: 0;
+        }
+
+        nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      
+      nav ul li {
+        display: inline-block;
+        margin-top: 10px;
+        margin-right:10px;
+      }
+      
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+      }
+
+      nav ul li a.active {
+        color: #ffcc00;
+      }
+
+        table {
+            margin-left: auto;
+            padding: 20px;
+            padding-top: 10px;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+            background-color: aliceblue;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+        
+        header {
+        background-color: rgba(70, 78, 78, 0.5);
+        color: #fff;
+        padding: 70px;
+        }
+        .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 20px;
+    }
+    
+    .second-container {
+      padding: 10px;
+    }
+
+    .container2 {
+      max-width: fit-content;
+      margin: auto auto;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+  
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+
+  
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+  
+    input[type="text"] {
+      width: 100%;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-size: 16px;
+    }
+
+    select {
+      width: 100%;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-size: 16px;
+    }
+  
+    button[type="submit"] {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius:4px ;
+      background-color: brown;
+    }
+
+    .text-field-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+
+    .txtDesign {
+        width: 48%;
+    }
+
+    .cancel-button {
+            background-color: #f44336;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .cancel-button:hover {
+            background-color: #d32f2f;
+        }
+    
+    </style>
+    <script>
+      function insertData(i) {
+          var container = document.getElementById("places");
+          var j = Number(i)
+          var dt = JSON.parse('{{ data | tojson | safe }}');
+          document.getElementById('busId').value = dt[j]['_id'];
+          document.getElementById('busId2').value = dt[j]['_id'];
+          document.getElementById('busName').value = dt[j]['busName'];
+          document.getElementById('busNumber').value = dt[j]['busNumber'];
+          document.getElementById('busRoute').value = dt[j]['start'];
+          document.getElementById('busRoute').disabled = false
+          document.getElementById('busName').disabled = false
+          document.getElementById('busNumber').disabled = false
+          document.getElementById('busRoute').disabled = false
+          document.getElementById('submitBtn').disabled = false
+      }
+    </script>
+</head>
+<body>
+
+    <header>
+        <h1>BUS INFORMATIONS</h1>
+        <nav>
+          <ul>
+            <li><a href="/adminHome">Home</a></li>
+            <li><a href="#" class="active">Buses</a></li>
+            <li><a href="/addBuses">Add Buses</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div class="container">
+        <div class="container2">
+            <h1>Bus</h1><br>
+            <form action="/changingBus" method="post">
+              <div class="form-group">
+                <label for="busId">Bus Id</label>
+                <input type="text" id="busId" name="busId" required disabled>
+                <input type="hidden" id="busId2" name="busId2">
+              </div>
+              <div class="form-group">
+                <label for="busName">Name</label>
+                <input type="text" id="busName" name="busName" required disabled>
+              </div>
+              <div class="form-group">
+                <label for="busNumber">Bus Number</label>
+                <input type="text" id="busNumber" name="busNumber" required disabled>
+              </div>
+              <div class="form-group">
+                <label for="busRoute">Initial Route</label>
+                <select id="busRoute" name = "busRoute" disabled>
+                  {% for i in routesData %}
+                  <option value="{{ i._id }}">{{ i.places }}</option>
+                  {% endfor %}
+                  </select>
+              </div>
+              <button type="submit" id = "submitBtn" disabled>Submit</button>
+            </form>
+          </div>
+      <div class="second-container">
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>Bus Number</th>
+                <th>Name</th>
+                <th>Routes</th>
+                <th>Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in range(data|length) %}
+            {% set row = data[i] %}
+            <tr>
+                <td>{{ row.busNumber }}</td>
+                <td>{{ row.busName }}</td>
+                <td>{{ row.start }}</td>
+                <td>
+                  <a href="#" class="cancel-button" onclick='insertData(" {{ i }} ")'><i class="fas fa-pen"></i></a>
+                  <a href="#" class="cancel-button"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+            {% endfor %}
+    </table>
+    </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var table = $('#myTable').DataTable({
+                scrollY: '300px',
+                scrollCollapse: true,
+                paging: false
+            });
+        });
+    </script>
+</body>
+</html>

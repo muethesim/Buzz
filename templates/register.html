@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Register Prompter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url("https://images.unsplash.com/photo-1501393091915-82f0cbd8f338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80");
+      background-size: cover;
+      background-position: center;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .register-container {
+      width: 600px;
+      margin: 300px auto;
+      background-color: rgba(70, 78, 78, 0.5);
+      padding: 20px;
+      border-radius: 9px;
+      box-shadow: 0 0 30px rgba(28, 29, 27, 0.1);
+    }
+
+    .register-container h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .register-container input[type="text"],
+    .register-container input[type="text"],
+    .register-container input[type="password"],
+    .register-container input[type="email"],
+    .register-container input[type="number"]{
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .register-container button {
+      width: 100%;
+      padding: 10px;
+      background-color: #e71616;
+      border: none;
+      color: #fff;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+      .button:hover
+       {
+        background-color: #36ec3f;
+       }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>Register</h2>
+    <form action = "/register" method = "post">
+      <input type="text" placeholder="First Name" name = "firstName" required>
+      <input type="text" placeholder="Last Name" name = "lastName" required>
+      <input type="password" placeholder="Password" name = "password" required>
+      <input type="email" placeholder="Email" name = "mail" required>
+      <input type="number"placeholder="Phone number" name = "phoneNumber" required>
+      <button type="submit">Register</button>
+    </form>
+  </div>
+  {% if message %}
+    {% if message == "error" %}
+      <script>
+        alert("Username already exists. Try logging In");
+        window.location.href = '/login'
+      </script>
+    {% else %}
+      <script>
+        alert("User Created Sucessfully. Please try logging In.");
+        window.location.href = '/login'
+      </script>
+    {% endif %}
+  {% endif %}
+</body>
+</html>

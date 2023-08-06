@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Time Input Example</title>
+  <script>
+    function al() {
+        alert(document.getElementById('timeInput').value)
+        document.getElementById('timeInput').value = '13:50'
+    }
+  </script>
+</head>
+<body>
+  <label for="timeInput">Select a time:</label>
+  <input type="time" id="timeInput" name="timeInput">
+  <button onclick="al()">CLICK</button>
+
+  <!-- You can add a button and a script to handle the time input if desired -->
+</body>
+</html>

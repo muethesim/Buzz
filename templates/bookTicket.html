@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <title>Book Ticket</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        background-image: url("https://images.unsplash.com/photo-1501393091915-82f0cbd8f338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80");
+      background-size: cover;
+      background-position: center;
+      }
+    
+     
+      
+      header {
+        background-color: rgba(70, 78, 78, 0.5);
+        color: #fff;
+        padding: 70px;
+        
+      }
+.hidden {
+  display: none;
+}
+label {
+  color: rgb(242, 245, 245);
+  font-size: 20px;
+  font-weight: bold;
+}
+h1 {
+  font-weight: bolder;
+}
+
+.warning {
+  padding-top: 10px;
+  text-align: center;
+  color: red;
+}
+
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Book your Tickets</h1>
+    </div>
+  </header>
+  <section class="py-5">
+    <div class="container">
+      <form action = "/bookTicket", method="post">
+
+        <div class="form-group">
+          <label for="from">To:</label>
+          <select id="from" style="width: 100%; height: 40px;" name = "from">
+          {% for i in place %}
+          <option value="{{ i }}">{{ i }}</option>
+          {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="to">To:</label>
+          <select id="to" style="width: 100%; height: 40px;" name = "to">
+          {% for i in place %}
+          <option value="{{ i }}">{{ i }}</option>
+          {% endfor %}
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Check Buses</button>
+      </form>
+    </div>
+  </section>
+  {% if message %}
+        <script>
+            if ("{{ message }}") {
+                alert('{{ message }}')
+            }
+        </script>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <title>Bus Details</title>
+    <style>
+
+.dataTables_wrapper .dataTables_filter {
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+.dataTables_wrapper .dataTables_filter input {
+
+            width: 300px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #ccc;
+        }
+
+        /* Customize the search button */
+        .dataTables_wrapper .dataTables_filter button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        /* Customize the search button hover effect */
+        .dataTables_wrapper .dataTables_filter button:hover {
+            background-color: #45a049;
+        }
+
+        .dataTables_info {
+            display: none;
+        }
+
+        .dataTables_wrapper .dataTables_filter label {
+            color: white;
+        }
+
+         body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        background-image: url("https://images.unsplash.com/photo-1501393091915-82f0cbd8f338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80");
+        background-size: cover;
+        background-position: center;
+        }
+        header {
+          background-color: rgba(70, 78, 78, 0.5);
+         color: #fff;
+          padding: 50px;
+        }
+        h1 {
+          margin: 0;
+        }
+
+        nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+      }
+      
+      nav ul li {
+        display: inline-block;
+        margin-top: 10px;
+        margin-right:10px;
+      }
+      
+      nav ul li a {
+        color: #fff;
+        text-decoration: none;
+      }
+
+      nav ul li a.active {
+        color: #ffcc00;
+      }
+ 
+        header {
+        background-color: rgba(70, 78, 78, 0.5);
+        color: #fff;
+        padding: 70px;
+        }
+    
+    .second-container {
+      padding: 10px;
+    }
+
+    .container2 {
+      max-width: 25%;
+      margin: auto auto;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+  
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+
+  
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+  
+    input[type="text"] {
+      width: 100%;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-size: 16px;
+    }
+  
+    button[type="submit"] {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius:4px ;
+      background-color: brown;
+    }
+
+    .text-field-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+
+    .txtDesign {
+        width: 48%;
+    }
+
+    .cancel-button {
+            background-color: #f44336;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .cancel-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .warning-message {
+            text-align: center;
+            font-weight: bold;
+            color:red;
+        }
+    
+    </style>
+
+    <script>
+
+        function setButtonClicked() {
+            var noPlaces = document.getElementById('numbersOfPlaces').value;
+            if(noPlaces < 2) {
+                alert("Number of places must be Greater than 1");
+            }
+
+            else if(document.getElementById('rtFrom').value == '' || document.getElementById('rtTo').value == '') {
+                alert("Enter From And To.");
+            }
+
+            else {
+                var container = document.getElementById('places');
+                var textFields = document.getElementsByClassName('text-field-container');
+
+                var textFieldsArray = Array.from(textFields);
+
+                textFieldsArray.forEach(function(textField) {
+                textField.remove();
+                });
+                for(var h=0; h<noPlaces; h++) {
+                    var textFieldContainer = document.createElement("div");
+                    textFieldContainer.className = "text-field-container";
+
+                    var textField1 = document.createElement("input");
+                    textField1.className = "text-field";
+                    textField1.type = "text";
+                    textField1.name = "text_field1";
+                    textField1.required = true;
+
+                    var textField2 = document.createElement("input");
+                    textField2.id = "text_field2"
+                    textField2.type = "text";
+                    textField2.name = "text_field2";
+                    textField2.required = true;
+
+                    if(h==0){
+                        textField1.value = document.getElementById('rtFrom').value;
+                        textField2.value = '0';
+                    }
+
+                    if(h==noPlaces-1){
+                        textField1.value = document.getElementById('rtTo').value;
+                    }
+
+                    textFieldContainer.appendChild(textField1);
+                    textFieldContainer.appendChild(textField2);
+
+                    container.appendChild(textFieldContainer);
+                    }
+                document.getElementById('submitBtn').disabled = false;
+            }
+        }
+
+    </script>
+
+</head>
+<body>
+
+    <header>
+        <h1>BUS INFORMATIONS</h1>
+        <nav>
+          <ul>
+            <li><a href="/adminHome">Home</a></li>
+            <li><a href="/changingRoute">Routes</a></li>
+            <li><a href="#" class="active">Add Route</a></li>
+          </ul>
+        </nav>
+      </header><br><br>
+        <div class="container2">
+            <h1>Route</h1><br>
+            <form action="/addingRoute" method="post">
+              <div class="form-group">
+                <label for="rtName">Name</label>
+                <input type="text" id="rtName" name="rtName" required>
+              </div>
+              <div class="form-group">
+                <label for="rtFrom">From</label>
+                <input type="text" id="rtFrom" name="rtFrom" required>
+              </div>
+              <div class="form-group">
+                <label for="rtTo">To</label>
+                <input type="text" id="rtTo" name="rtTo" required>
+              </div>
+              <div class="form-group">
+                <label for="numbersOfPlaces">Number Of Places</label>
+                <input type="number" id="numbersOfPlaces" name="numbersOfPlaces" value="0" required>
+                <input type="button" id= "setPlacesNumber" onclick="setButtonClicked()" value="SET">
+              </div>
+              <div class="form-group">
+                <label for="places">Places And Distance</label>
+                <div id="places">
+                    <!-- textFields Here -->
+                </div>
+              </div>
+              <button type="submit" id = "submitBtn" disabled>Submit</button>
+            </form>
+            {% if message %}
+                <p class="warning-message"> {{ message }} </p>
+            {% endif %}
+          </div>
+    <script>
+        
+    </script>
+</body>
+</html>
