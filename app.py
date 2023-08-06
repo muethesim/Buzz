@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from bson.objectid import ObjectId
 import razorpay
 import math
+from datetime import date, datetime
 
 
 url = "mongodb+srv://farhankomban99:sPG15HTXqB3Ld4RB@cluster0.g46d69s.mongodb.net/?retryWrites=true&w=majority"
@@ -130,7 +131,8 @@ def bookTicket():
                 startTime = {}
                 for k, i in enumerate(lst):
                     if src in i['places'] and dest in i['places']:
-                        trp = list(tripCollection.find({ 'routeId' : i['_id'] }))
+                        trp = list(tripCollection.find({ 'routeId' : str(i['_id']) }))
+                        print("Here", trp)
                         for trips in trp:
                             sttm = int(trips['start'])
                             TotalTime = sttm + math.ceil((int(lst[index]['dist'][src]) * 1.75))
@@ -141,9 +143,13 @@ def bookTicket():
                     ttm =f"{h//60 if len(str(h//60)) > 1 else '0'+str(h//60)}:{h%60 if len(str(h%60)) > 1 else '0'+str(h%60)}"
                     timeOut.update({ttm : startTime[h]})
 
-                ticketPrice = max(math.ceil((lst[0]['dist'][dest] - lst[0]['dist'][src])*2.2), 10)
+                for k, i in enumerate(lst):
+                    if src in i['places'] and dest in i['places']:
+                        ticketPrice = max(math.ceil((lst[k]['dist'][dest] - lst[k]['dist'][src])*2.2), 10)
+                        break
                         
                 data = {'from' : src, 'to' : dest, 'times' : timeOut, 'ticketPrice' : ticketPrice}
+                print(data)
                 return f'''
                             <h1>Redirecting...</h1>
                             <form id="redirectForm" action="/ticket" method="POST">
@@ -158,7 +164,6 @@ def bookTicket():
 
 @app.route('/transactions')
 def transactions():
-    from datetime import date, datetime
     collection = db['Orders']
     realData = []
     data = collection.find({ 'userId' : ObjectId(session["data"]) }).sort('date',1)
@@ -568,6 +573,32 @@ def deleteConductor(id):
     newId = ObjectId(id.strip())
     collection.delete_one({ '_id' : newId })
     return redirect('/editConductor')
+
+@app.route('/orders', methods = ['GET', 'POST'])
+def orders():
+    collection = db['Orders']
+    collectionUser = db['Users']
+    orderData = collection.find()
+    orderDataNew = []
+    for i in orderData:
+        i['_id'] = str(i['_id'])
+        userData = collectionUser.find_one({'_id':i['userId']})
+        i['user'] = userData['firstName'] + " " + userData['lastName']
+        orderDataNew.append(i)
+    return render_template('./adminPages/ordersView.html', data=orderDataNew)
+
+@app.route('/ordersToday', methods = ['GET', 'POST'])
+def ordersToday():
+    collection = db['Orders']
+    collectionUser = db['Users']
+    orderData = collection.find({'date' : str(date.today())})
+    orderDataNew = []
+    for i in orderData:
+        i['_id'] = str(i['_id'])
+        userData = collectionUser.find_one({'_id':i['userId']})
+        i['user'] = userData['firstName'] + " " + userData['lastName']
+        orderDataNew.append(i)
+    return render_template('./adminPages/ordersViewToday.html', data=orderDataNew)
 
 # ===============================================================================
 
