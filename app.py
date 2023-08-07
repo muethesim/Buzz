@@ -5,6 +5,7 @@ import razorpay
 import math
 from datetime import date, datetime
 
+print("STrat")
 
 url = "mongodb+srv://farhankomban99:sPG15HTXqB3Ld4RB@cluster0.g46d69s.mongodb.net/?retryWrites=true&w=majority"
 razorpayClient = razorpay.Client(auth=('rzp_test_Tum9Wc5xEZEhMb', '7RSFhkKUe4rQjxz5BMvWuSaE'))
