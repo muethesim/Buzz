@@ -6,5 +6,7 @@ Run app.py
 
 admin endpoint : '/admin'
 
-admin username : admin
+ADMIN
+---------------
+username : admin
 password : 1234
